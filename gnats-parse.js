@@ -35,14 +35,15 @@ function pr_parse(pr_text) {
 	// It might be that some lines are broken, so let's try and deal with it by tacking
 	// elements whose first character is '\t' on the previous one.
 	pr.headers = [];
-	for (var i = 0, _len = headers.length; i < _len; i++) {
+	for (var i = 0, _len = headers.length, last_i = 0; i < _len; i++) {
 		if (!headers[i]) {
 			continue;
 		}
 		if (headers[i][0] !== '\t') {
 			pr.headers.push(headers[i]);
+			last_i = i;
 		} else {
-			pr.headers[i - 1] += headers[i].substring(1)
+			pr.headers[last_i] += ' ' + headers[i].substring(1)
 		}
 	}
 
@@ -68,7 +69,7 @@ function pr_parse(pr_text) {
 			// This is a multi line field. If there's another field after this one, grab
 			// everything between the two. Otherwise, grab everything till the end.
 			idx2 = (i + 1 < _len) ? pr_text.indexOf(fields[i + 1], idx1) : undefined;
-			field_data = pr_text.substring(idx1, idx2).trim();
+			field_data = pr_text.substring(idx1, idx2);
 			pr[field_name] = field_data;
 		}
 
