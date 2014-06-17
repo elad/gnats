@@ -1,5 +1,5 @@
 {
-  "name": "gnats-parse",
+  "name": "gnats",
   "version": "0.0.1",
   "description": "Parse GNATS data",
   "main": "gnats-parse.js",
