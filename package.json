@@ -2,7 +2,7 @@
   "name": "gnats",
   "version": "0.0.1",
   "description": "Parse GNATS data",
-  "main": "gnats-parse.js",
+  "main": "gnats.js",
   "dependencies": {
     "async": "^0.9.0",
     "request": "^2.36.0",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/elad/parse-gnats.git"
+    "url": "https://github.com/elad/gnats.git"
   },
   "keywords": [
     "gnats",
@@ -28,7 +28,7 @@
   "author": "Elad Efrat",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/elad/parse-gnats/issues"
+    "url": "https://github.com/elad/gnats/issues"
   },
-  "homepage": "https://github.com/elad/parse-gnats"
+  "homepage": "https://github.com/elad/gnats"
 }
