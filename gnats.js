@@ -1,12 +1,6 @@
-var async = require('async'),
-    fs = require('fs'),
-    request = require('request'),
+var request = require('request'),
     string = require('string'),
     _ = require('underscore');
-
-var config = {
-	url: 'http://gnats.netbsd.org/',
-};
 
 function gnats_fetch(url, callback) {
 	request.get(url, function(err, res) {
@@ -24,8 +18,9 @@ function gnats_fetch(url, callback) {
 		callback(null, pr_text);
 	});
 }
+exports.fetch = gnats_fetch;
 
-function pr_parse(pr_text) {
+function gnats_parse(pr_text) {
 	var pr = {};
 
 	// Email headers come first. They go from the first 'From' to the first empty line.
@@ -79,42 +74,4 @@ function pr_parse(pr_text) {
 
 	return pr;
 }
-
-function main() {
-	var input = process.argv[2];
-	if (!input) {
-		console.log('usage:', process.argv[1], '<pr_number | file | url>');
-		return;
-	}
-
-	async.waterfall([
-		function(callback) {
-			var pr_number = Number(input),
-			    url;
-			if (!isNaN(pr_number)) {
-				input = config.url + pr_number;
-			} else {
-				try {
-					fs.statSync(input);
-					return fs.readFile(input, callback);
-				} catch (ex) {
-					// nothing
-				}
-			}
-
-			gnats_fetch(input, callback);
-		},
-		function(pr_text, callback) {
-			var pr = pr_parse(pr_text);
-
-			// Print the PR.
-			console.log(pr);
-
-			callback();
-		},
-	], function(err) {
-		// nothing
-	})
-}
-
-main();
+exports.parse = gnats_parse;
