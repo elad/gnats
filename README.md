@@ -1,11 +1,11 @@
 ### Install
 ```
-$ git clone https://github.com/elad/gnats-parse
-$ cd gnats-parse
+$ git clone https://github.com/elad/gnats
+$ cd gnats
 $ npm install
 ```
 
 ### Use
 ```
-$ node gnats-parse 48910
+$ node test 48910
 ```
