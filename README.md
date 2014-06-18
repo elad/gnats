@@ -1,8 +1,6 @@
 ### Install
 ```
-$ git clone https://github.com/elad/gnats
-$ cd gnats
-$ npm install
+$ npm install elad/gnats
 ```
 
 ### Use
