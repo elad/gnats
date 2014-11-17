@@ -5,7 +5,7 @@ If you are unfortunate enough to be working with a GNATS bug tracking system, th
 ### Install
 
 ```
-$ npm install elad/gnats
+$ npm install gnats
 ```
 
 ### Use
