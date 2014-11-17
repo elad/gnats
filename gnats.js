@@ -1,9 +1,17 @@
-var request = require('request'),
+var fs = require('fs'),
+    request = require('request'),
     string = require('string'),
     _ = require('underscore');
 
-function gnats_fetch(url, callback) {
-	request.get(url, function(err, res) {
+function fetch(input, callback) {
+	try {
+		fs.statSync(input);
+		return fs.readFile(input, { encoding: 'utf-8' }, callback);
+	} catch (ex) {
+		// nothing
+	}
+
+	request.get(input, function(err, res) {
 		if (err || !res.body) {
 			return callback(err || 'no data');
 		}
@@ -18,9 +26,8 @@ function gnats_fetch(url, callback) {
 		callback(null, pr_text);
 	});
 }
-exports.fetch = gnats_fetch;
 
-function gnats_parse(pr_text) {
+function parse(pr_text) {
 	var pr = {};
 
 	// Email headers come first. They go from the first 'From' to the first empty line.
@@ -74,4 +81,7 @@ function gnats_parse(pr_text) {
 
 	return pr;
 }
-exports.parse = gnats_parse;
+
+// Exports
+exports.fetch = fetch;
+exports.parse = parse;

@@ -1,6 +1,4 @@
-var async = require('async'),
-    fs = require('fs'),
-    gnats = require('./gnats');
+var gnats = require('./');
 
 var config = {
 	url: 'http://gnats.netbsd.org/',
@@ -13,34 +11,20 @@ function main() {
 		return;
 	}
 
-	async.waterfall([
-		function(callback) {
-			var pr_number = Number(input),
-			    url;
-			if (!isNaN(pr_number)) {
-				input = config.url + pr_number;
-			} else {
-				try {
-					fs.statSync(input);
-					return fs.readFile(input, callback);
-				} catch (ex) {
-					// nothing
-				}
-			}
+	var pr_number = Number(input);
+	if (!isNaN(pr_number)) {
+		input = config.url + pr_number;
+	}
 
-			gnats.fetch(input, callback);
-		},
-		function(pr_text, callback) {
-			var pr = gnats.parse(pr_text);
+	gnats.fetch(input, function (err, pr_text) {
+		if (err) {
+			console.log('Error:', err);
+			return;
+		}
 
-			// Print the PR.
-			console.log(pr);
-
-			callback();
-		},
-	], function(err) {
-		// nothing
-	})
+		var pr = gnats.parse(pr_text);
+		console.log(pr);
+	});
 }
 
 main();
