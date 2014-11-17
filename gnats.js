@@ -32,25 +32,28 @@ function parse(pr_text) {
 
 	// Email headers come first. They go from the first 'From' to the first empty line.
 	var idx1 = pr_text.indexOf('From'),
-	    idx2 = pr_text.indexOf('\n\n', idx1),
-	    headers = pr_text.substring(idx1, idx2).split('\n');
-	// It might be that some lines are broken, so let's try and deal with it by tacking
-	// elements whose first character is '\t' on the previous one.
-	pr.headers = [];
-	for (var i = 0, _len = headers.length, last_i = 0; i < _len; i++) {
-		if (!headers[i]) {
-			continue;
-		}
-		if (headers[i][0] !== '\t') {
-			pr.headers.push(headers[i]);
-			last_i = i;
-		} else {
-			pr.headers[last_i] += ' ' + headers[i].substring(1)
-		}
-	}
+	    idx2 = pr_text.indexOf('\n\n', idx1);
+	if (idx1 === 0) {
+		var headers = pr_text.substring(idx1, idx2).split('\n');
 
-	// Advance by 2 because our mark is two newlines.
-	pr_text = pr_text.substring(idx2 + 2);
+		// It might be that some lines are broken, so let's try and deal with it by tacking
+		// elements whose first character is '\t' on the previous one.
+		pr.headers = [];
+		for (var i = 0, _len = headers.length, last_i = 0; i < _len; i++) {
+			if (!headers[i]) {
+				continue;
+			}
+			if (headers[i][0] !== '\t') {
+				pr.headers.push(headers[i]);
+				last_i = i;
+			} else {
+				pr.headers[last_i] += ' ' + headers[i].substring(1)
+			}
+		}
+
+		// Advance by 2 because our mark is two newlines.
+		pr_text = pr_text.substring(idx2 + 2);
+	}
 
 	// PRs have fields designated by '>FieldName:' strings at the beginning of lines.
 	// Grab all the text associated with each field.
