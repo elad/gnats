@@ -4,11 +4,9 @@
   "description": "Parse GNATS data",
   "main": "gnats.js",
   "dependencies": {
-    "async": "^0.9.0",
     "request": "^2.36.0",
     "string": "^1.8.1",
-    "underscore": "^1.6.0",
-    "html-to-text": "^0.0.8"
+    "underscore": "^1.6.0"
   },
   "devDependencies": {},
   "scripts": {
